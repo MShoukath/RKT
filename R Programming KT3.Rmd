@@ -183,7 +183,7 @@ dplyr provides 5 useful functions that allows us to easily manipulate the data.
   a)update()
 ```{r}
     library(lubridate)
-    date = as_datetime(now())
+    date = now()
     date
     date = update(date, year = 2010, month = 8, day = 1)
     date
