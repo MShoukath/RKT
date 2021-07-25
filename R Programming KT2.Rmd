@@ -1,0 +1,163 @@
+---
+title: "R programming KT2"
+output: html_document
+---
+*Vectors*
+Vectors are 1 dimensional arrays of a single type of data. each element in a vector can have a name, these vectors can also be used to vectorize operations to save time make the program efficient. When different datatypes are used R automatically tries to convert all the elements to a single type, if it fails then it returns an error
+  *Creating Vectors*
+    a)Using the ':' operator to generate a vector
+    ```{r}
+    Vector1 = -8:10
+    Vector1
+    ```
+    b) Using the seq() function
+    ```{r}
+    Vector1 = seq(10,20,0.5)
+    Vector1
+    ```
+    c) Using the rep() function
+    ```{r}
+    Vector1 = rep(2:4,5)
+    Vector1
+    ```
+    d) Using the c() function
+    ```{r}
+    Vector1 = c("a","b","c","d","e", 7, F, 8L)
+    Vector1
+    ```
+  
+  *Accessing elements in a vector and slicing a vector*
+    We can access elements in a vector by passing the inde of an element in the vector.It can be an integer or a vector, R also accepts negative arguments. We can also use the names of individual elements to access a vector. Passing an array of booleans can also filter elements as needed.
+    ```{r}
+    Vector1[3]
+    
+    names(Vector1) = c("a","b","c","d","e","f","g","h")
+    
+    Vector1["c"]
+    
+    Vector2 = seq(10,15,length.out= 7)
+    Vector2
+    
+    Vector2[Vector2<13.5]
+    ```
+  
+  *Performing operations with a vector*
+  Instead of using loops and complicated functions to perform basic operations with a vector, we can just use mathematical operators to perform the said operators.
+```{r}
+    a = c(3, 6, 4, 7, 3, 5)
+    b = 1L:6L
+    c = rep(c(T,F), 3)
+    d = c(2,2,2)
+    
+    a-b
+    
+    b*c
+    
+    #Recycling the vector
+    b+d
+```
+  
+  *Adding and removing elements from a vector*
+  To add or remove an element we just need to pass the inde of the new element
+```{r}
+  b[7] = 7
+  b[7] = NULL
+```
+
+*Lists*
+Lists are general purpose vectors that can store elements of multiple data types or even store other lists , vectors and matrices
+  *Creating Lists*
+```{r}
+    List1 = list("Hello World",3 + 5i, 1L:4L, FALSE, "Goodbye World", matrix(1:8, nrow = 2, ncol = 4))
+    List1 
+```
+  
+  *Accessing elements in a list*
+```{r}
+    List1[3]
+    #Giving names to all the elements in a list
+    names(List1) = c("Hello", "ComplexNumber","Logical","IntVector","Goodbye","Mat")
+    
+    List1["IntVector"]
+    List1$Hello
+```
+ *Adding and removing elements from a list*
+  To add or remove an element we just need to pass the inde of the new element
+```{r}
+    List1[length(List1)+1] = "NOoooOOooOOoooOOoooooo"
+    List1[length(List1)+1] = NULL
+```
+
+*Matrices*
+Matrices are 2 dimensional vectors.
+  *Creating a Matrix*
+    a) Using the matrix() method
+    ```{r}
+    mat1 = matrix(1:9, nrow = 3)
+    mat1
+    mat1 = matrix(1:9, ncol = 3,byrow = TRUE)
+    mat1
+    ```
+    b) Using rbind()
+    ```{r}
+    mat1 = rbind(a,b,c,seq(-5,-15, length.out = 6))
+    mat1
+    ```
+    c) Using cbind()
+    ```{r}
+    mat1 = cbind(a,b,c,seq(5,15, length.out = 6))
+    mat1
+    ```
+    
+  *Accessing/Slicing/Subsetting from a matrix*
+  It is very similar to accessing from a vector.
+    ```{r}
+    mat1 = t(mat1)
+    mat1
+    
+    mat1[3,]
+    
+    mat1[,4]
+    
+    mat1[3,4]
+    #Giving row names and column names to Mat1
+    rownames(mat1) = c("Monday","Tuesday","Wedneday","Thursday")
+    colnames(mat1) = c("Maths", "Science", "CS", "English", "Hindi", "Tamil")
+    mat1
+    
+    mat1["Monday", "Science",]
+  
+    mat1[mat1[,"Science"] %% 2 == 0,"Science"]
+         
+
+    
+    
+    mat1[1:3,4:6]
+    ```   
+    
+  *Operations with matrices*
+  The operations on matrices are also very similar to operations on vectors.
+```{r}
+     mat2 = rbind(a+b,c*b,b/a, rep(c(1,2),3))
+     mat2 = round(mat2)
+     
+     mat1 * mat1
+     mat1 + mat2
+     mat1 - mat2
+     mat1 / mat2
+     
+     #matrix multiplication
+      mat1 %*% t(mat2)
+      ?rbind()
+      
+```
+  *Adding/Removing elements and Merging matrices*
+  Add,Remove or Merge a matrix we can use either rbind() or the cbind function, the choice of function determines weather the matrices are merged along its rows or columns
+```{r}
+    rbind(mat1,mat2)
+    cbind(mat1,mat2)
+```
+
+
+
+

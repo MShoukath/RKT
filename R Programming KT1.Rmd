@@ -1,0 +1,200 @@
+---
+title: "R Programming KT1"
+output: html_document
+---
+                           *Introduction to R programming*
+ 
+R is a programming language primarily used by Data Scientists/Analysts to help perform  various operations on large data sets using the powerful modules built for R.
+
+*Variables:*
+R variable names can only contain alphanumeric characters, underscore and period. These variable names can only start with a period or an alphabet character. The variable names are also case sensitive.
+
+   *Examples of valid variable names:*
+      Variable1
+      .Variable1
+      .Variable_1 
+
+   *Examples of invalid variable names:*
+      _Variable1
+      V@riable!
+      1Variable
+      
+
+*Assigning a Variable:*
+```{r}
+      Variable1 <- "Hello World"
+      Variable1
+      
+      Variable2 = "Goodbye World"
+      Variable2
+      
+      Variable1 -> Variable2
+      Variable1
+      Variable2
+```
+
+*Removing a variable from Memory*
+```{r}
+rm(Variable1)
+```
+
+*Operators in R*
+  *Relational operator:*
+```{r}
+#   a) Less than operator '<'
+        3 < 4 
+        4 < 3
+#   b) Greater than operator '>'
+        10 > 7
+        7 > 10
+#   c) Less than or equal to operator '<='
+        8 <= 9
+        9 <= 8
+#   d) Greater than or equal to operator '>='
+        9 >= 8
+        8 >= 9
+#   e) Equal to operator '=='
+        1 == 1
+        1 == 0
+#   f) Not equal to operator '!='
+        1 != 0
+        1 != 1
+```
+ 
+  *Mathematical Operators:*
+```{r}
+#   a) Addition Operator '+'
+          3 + 4 
+#   b) Subtraction operator '-'
+          10 - 7
+#   c) Multiplication operator '*'
+          2 * 9
+#   d) Division operator '/'
+          8 / 2
+#   e) Eponent operator '^'
+          2 ^ 4
+#   f) Modulus than operator '%%'
+          8 %% 7
+```
+  
+  *Logical Operators:*
+```{r}
+#   a) And Operator '&'
+          (8 > 7) & (6 == 6)
+          (6 < 6) & (2 < 3)
+#   b) Or operator '|'
+          (6 < 6) | (2 < 3)
+          (3 != 3) | (10 <= 8)
+#   c) Not operator '!'
+          !(8 > 7)
+          !(6 < 6)
+```
+*Atomic Datatypes:*
+```{r}
+#   a) Character
+        Var = 'Hello'
+        typeof(Var)
+#   b) Integer
+        Var = 7L
+        typeof(Var)
+#   b) Numeric/Double
+        Var = 3.14
+        typeof(Var)
+#   b) Complex
+        Var = 7 + 2i
+        typeof(Var)
+#   b) Boolean/Logical
+        Var = TRUE
+        typeof(Var)
+```       
+ 
+        
+*Conditionals in R*
+ In order to make decisions selectively run code R uses conditional statements
+    *If else block:*
+```{r}
+        if(Var){
+          print("The condition is True")
+        }else{
+          print("The condition is False")
+        }
+```
+    *else if block:*
+        else if(!Var){
+          print("The condiont is not True, its False")
+        }
+    *Switch Block:*
+```{r}
+        x = switch(3,
+          "first",
+          "second",
+          "third",
+          "fourth"
+          )
+        print(x)
+``` 
+
+*Loops in R*
+Loops are used to repeatedly run the same block of code to perform some function
+  *Repeat Loops:*'
+```{r}
+        counter = 1
+        repeat{ 
+          print(paste("Loop:",counter))
+          counter = counter + 1
+          
+          if(counter == 4){
+            break
+          }
+        }
+```
+  *While Loops:*
+```{r}
+        counter = 1
+        while (counter < 4) {
+          print(paste("Loop:",counter))
+          counter = counter + 1
+        }
+```
+  *For loops:*
+```{r}
+        for(counter in 1:4){
+          print(paste("Loop:",counter))
+        }
+```
+
+*Functions in R*
+Functions are used to repeat the same set of code in different circumstances and different values, there are also several built-in functions which make programming much easier.eg: sqrt(), sum(), mean() etc.
+```{r}
+        func = function() {
+          print("This is a function") 
+        }
+        func()
+```
+
+*Example Program:*
+```{r}
+        PrimeCheck = function(num){
+          res = "It is a Prime Number"
+          squareroot = ceiling(sqrt(num));
+          if (num %% 2 != 0 && num != 1)
+            for(i in seq(3,squareroot,2) )
+            {
+              if (num %% i == 0)
+              {
+                res = "It is not a Prime Number";
+                break;
+              }
+            }
+          else if(num == 2) {
+            res = "It is a Prime Number";
+          }
+          else{
+            res = "It is not a Prime Number";
+          }
+          return(res);
+        }
+        
+        print(PrimeCheck(999))
+```
+        
