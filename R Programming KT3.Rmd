@@ -1,0 +1,212 @@
+---
+title: "R programming K2"
+author: "Mohammed Shoukath"
+date: "24/07/2021"
+output: html_document
+---
+                                      *Working with Dataframes*
+DataFrames
+DataFrames are 2-Dimensional lists or a list of sub lists each of which has a the same length.
+  *Creating Dataframes:*
+  There are 2 ways to create a DataFrame,
+  a) Using the data.frame() function.
+```{r}
+    Countries = c("India", "Germany", "United States","China","Canada")
+    Employees = c(343,565,654,231,432)
+    Monthly_Expenditure_in_USD = c(20000, 50000, 80000, 16000, 34000)
+    
+    df1 = data.frame(Country = Countries,Employees,Expenditure = Monthly_Expenditure_in_USD)
+    df1
+    
+    Revenue = c("27404","92639","66393","12948","34090")
+    Country = c("India","United States","Germany","China","Canada")
+    df2 = data.frame(Country,Revenue)
+    df2
+```
+  b) Importing data from a csv file.
+```{r}
+    df = read.csv("P2-Section5-Homework-Data.csv")
+    df
+```
+
+  *Useful functions with DataFrames*
+  These are some useful functions with DataFrames. That help us understand a DataFrame better and make it easier to analyse.
+```{r}
+    nrow(df)
+    ncol(df)
+    head(df)
+    tail(df)
+    str(df)
+    summary(df)
+    levels(df$Region)
+```
+
+ *Merging two DataFrames, adding a new row,*
+```{r}
+    #Merging dataframes
+    df1
+    df2
+    Company = merge(df1,df2,by.x = "Country",by.y = "Country")
+    Company
+    
+    #Adding a new row
+    Company = rbind(Company,list("Zimbabwe", 28,12049,7483))
+    Company
+```
+
+  *Mathematical Operations in a DataFrame*
+All the basic mathematical operations posssible with vectors is also possible with R
+```{r}
+    Company$Profit = as.integer(Company$Revenue) - Company$Expenditure
+    
+```
+
+  *Accessing/Slicing/Subsetting in DataFrames*
+  Accessing/Slicing/Subsetting DataFrames is very similar to that of lists and matrices
+```{r}
+    #Using column names
+    df$Country.Name
+    #Using Column values
+    df[,c(-3,-2)]
+    #Filtering Rows
+    df[5:12,]
+    df[df$Fertility.Rate<3 & df$Year == 1960,]
+```
+
+                                      *'Tidy' Data in R*
+The basic work flow of a Data Scientist:
+
+  Tidy Data ->
+                Manipulate Data ->
+                                    Visualize Data ->
+
+What is 'Tidy' Data?
+Tidy data refers to data that meets 3 conditions
+  a)Each Variable is its own column
+  b)Each row is its own observation
+  c)All the relevant Variables are part of the same table
+  
+Why do we need to 'Tidy' Data?
+Having data in the right format is essential when we want to perform analysis on it, The process of converting data into the right format for performing analysis is called tidying the data. According to some statistics Data Scientists spend on average more than 50% of their time tidying data, so finding the right tools to speed up the tidying process is important.
+
+The packages we can use to 'Tidy' Data in R:
+  a)dplyr
+  b)tidyr
+  c)lubridate
+*Installing and Importing the packeges in R*
+```{r}
+    
+    packages = c("tidyr","dplyr","lubridate")
+    install.packages(packages)
+    library("tidyr","dplyr","lubridate")
+```
+
+*The pipe function '%>%' in dplyr*
+The '%>%' function allows us to pass an a variable as the first argument in a function. It makes the code much more readable and is easier to understand for someone who's reviewing your code.
+```{r}
+    sum(Company$Profit)
+    
+    Company$Profit %>% sum()
+    # %>% converts the line into sum(Company$Profit,)
+```
+  
+*tidyr*
+tidyr has 4 basic function we can use. It is mostly used to tidy data and make it more suitable for analysis.
+  a)gather()
+```{r}
+    library("EDAWR")
+    storms
+    cases %>% gather(year,Cases,2:4) 
+
+```
+
+  b)spread()
+```{r}
+    pollution %>% spread(size, amount)
+
+```
+
+  c)separate()
+```{r}
+    storms %>% separate(Date,c("Year","Month","Day"), sep = "-") -> storms
+
+```
+
+  d)unite()
+```{r}
+    storms %>% unite("date",Year,Month,Day,sep = "-") -> storms
+    storms
+
+```
+
+
+*dplyr Package*
+dplyr provides 5 useful functions that allows us to easily manipulate the data.
+  a)select()
+  select() function is used to generally select columns in a data set, which becomes easy as each columns is treated as its own variable.
+```{r}
+    df %>% select(-Country.Code)
+```
+
+  b)filter()
+  filter() function makes it easy to chain conditions and filter out rows and also makes it easier to read
+```{r}
+    df %>% filter(Region %in% c("The Americas", "Europe", "Oceania"),
+                Fertility.Rate > 2.5 ,Year == 2013) 
+```
+
+  c)mutate()
+  mutate() function is super useful as it provides access to host of window functions exclusive to mutate(), it makes it easy to create several new columns based on existing columns.
+```{r}
+    Company %>% mutate(Profit = as.integer(Revenue) - Expenditure)
+
+    df[df$Year == 2013,] %>% 
+      mutate(Status = if_else(Fertility.Rate>2.5,"Booming Population",
+                              if_else(Fertility.Rate >2,
+                                    "Stable Population","Declining Population"))) 
+```
+
+  d)arrange()
+  arrange() is useful function for sorting especially when it needs to be done in a hierarchy.
+```{r}
+    df %>% arrange(Region,desc(Fertility.Rate))
+```
+
+  e)summarise() and group_by()
+  summarise() function is most useful alongside the group_by() function as it allows us to perform analysis on individual groups and understand better.
+```{r}
+    df %>% group_by(Region, Year) %>% summarise(mean.Fertility.Rate = mean(Fertility.Rate), No.of.Countries = n())
+```
+
+*lubridate*
+  Lubridate package, makes it easier to work with dates and times. It has 3 basic collections of functions which make working with date time data a whole lot easier.
+  a)update()
+```{r}
+    library(lubridate)
+    date = as_datetime(now())
+    date
+    date = update(date, year = 2010, month = 8, day = 1)
+    date
+```
+  b)data extraction functions
+```{r}
+    year(date)
+    month(date,label = F)
+    mday(date)
+    hour(date)
+    minute(date)
+    second(date)
+    yday(date)
+    wday(date,label = F)
+```
+  c)Interval/duration/period
+```{r}
+    difftime = now() - date
+    difftime
+    
+    as.duration(difftime)
+    as.period(difftime)
+    as.interval(date, now())
+```
+
+
